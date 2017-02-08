@@ -1,6 +1,11 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var dotenv = require('dotenv');
+
+dotenv.load();   //get configuration file from .env
+
+console.log(process.env.DOWNLOADS_API_KEY);
 
 app.use(bodyParser.json());
 
