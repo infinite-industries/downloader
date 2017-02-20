@@ -12,17 +12,16 @@ app.use(bodyParser.json());
 app.post('/api', function(req,res){
   console.log(req.body);
   console.log(req.body.user_email);
+  console.log(req.body.password);
+  res.json({"status":"success"});
+
 })
 
-app.get('/dog',function(req,res){
-  res.send("I aint no cat");
-})
 
 app.use(function(req,res){
   //res.render('404',{domain: process.env.DOMAIN});
   res.send("yo!");
 });
-
 
 var appPort=7777;
 
