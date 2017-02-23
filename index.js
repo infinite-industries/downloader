@@ -18,11 +18,13 @@ mongoose.connect(process.env.DB);
 app.use(bodyParser.json());
 
 //Configure Nunjucks
-var PATH_TO_TEMPLATES = '.' ;
+var PATH_TO_TEMPLATES = 'views';
 nunjucks.configure( PATH_TO_TEMPLATES, {
     autoescape: true,
     express: app
 } ) ;
+
+app.set('view engine', 'html');
 
 var s3client = new AWS.S3({
    accessKeyId: process.env.AWS_ACCESS_KEY_ID,    //required
@@ -72,9 +74,9 @@ app.get('/download-view/:id', function(req,res){
       var data = {
         user_email:file_data.user_email,
         filename: file_data.which_file,
-        path:'http://localhost:'+ appPort +'/download-file/'+file_data.uuid
+        uuid: file_data.uuid
       };
-      res.render( 'downloadpage.html', {data} ) ;
+      res.render('downloadpage.html', {'data':data}) ;
     }
     else {
       res.json({"status":"failure"});
@@ -112,8 +114,7 @@ app.get('/download-file/:id', function(req,res){
 })
 
 app.use(function(req,res){
-  //res.render('404',{domain: process.env.DOMAIN});
-  res.send("yo!");
+  res.render('404',{domain: process.env.DOMAIN});
 });
 
 var appPort=7777;

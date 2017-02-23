@@ -1,3 +1,3 @@
 <p>Hello {{ data.user_email }}, please click the link below to download.</p>
-<a href= {{ data.path }} >Download {{ data.filename }}</a>
+<a href= "/download-file/{{ data.uuid }}">Download {{ data.filename }}</a>
 <p>Of course, the uuid is exposed, so maybe we don't want to do this?!?<p>
