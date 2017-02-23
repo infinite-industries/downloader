@@ -1,17 +1,34 @@
 var express = require('express');
 var app = express();
+
+var AWS = require('aws-sdk');
+var fs = require('fs');
+
 var bodyParser = require('body-parser');
 var dotenv = require('dotenv');
-
 var mongoose = require('mongoose');
 var download = require('./models/downloads');
 var uuid = require('uuid');
+var nunjucks = require( 'nunjucks' ) ; //Added nunjucks for templating
 
 dotenv.load();   //get configuration file from .env
 
 mongoose.connect(process.env.DB);
 
 app.use(bodyParser.json());
+
+//Configure Nunjucks
+var PATH_TO_TEMPLATES = '.' ;
+nunjucks.configure( PATH_TO_TEMPLATES, {
+    autoescape: true,
+    express: app
+} ) ;
+
+var s3client = new AWS.S3({
+   accessKeyId: process.env.AWS_ACCESS_KEY_ID,    //required
+   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, //required
+   region: 'us-west-1'
+});
 
 app.post('/create-download-key', function(req,res){
   //create download instance and send its id to the user via email
@@ -51,7 +68,13 @@ app.get('/download-view/:id', function(req,res){
     if(err) throw err;
     //console.log(file_data);
     if(file_data){
-      res.json({"status":"success","user_email":file_data.user_email});
+      //res.json({"status":"success","user_email":file_data.user_email}); //temporarily commented out this line, as page does not seem to render .html page otherwise
+      var data = {
+        user_email:file_data.user_email,
+        filename: file_data.which_file,
+        path:'http://localhost:'+ appPort +'/download-file/'+file_data.uuid
+      };
+      res.render( 'downloadpage.html', {data} ) ;
     }
     else {
       res.json({"status":"failure"});
@@ -69,7 +92,17 @@ app.get('/download-file/:id', function(req,res){
     if(err) throw err;
     //console.log(file_data);
     if(file_data){
-      res.json({"status":"success","stuff":"got a live one! Richie can add download."});
+      //res.json({"status":"success","stuff":"got a live one! Richie can add download."});
+      var fileKey = 'jr_southard_for_print.tif'
+
+      var options = {
+        Bucket: process.env.AWS_BUCKET,
+        Key: fileKey,
+      };
+
+      res.attachment(fileKey);
+      var fileStream = s3client.getObject(options).createReadStream();
+      fileStream.pipe(res);
     }
     else {
       res.json({"status":"failure"});
