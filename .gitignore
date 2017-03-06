@@ -2,4 +2,5 @@ node_modules
 .env
 .DS_Store
 jr_southard_for_print.tif
+demo_download_file.txt
 notes.local
