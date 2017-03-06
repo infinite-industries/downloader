@@ -48,13 +48,8 @@ module.exports = {
       .catch(err => console.log(err));
   },
 
-  sendDownloadEmail: function(collector_email, download_id, has_physical_delivery){
-    var download_link = "https://"+process.env.DOMAIN+"/downloads/file/"+download_id;
-
-    // if(process.env.MODE=="DEVELOPMENT"){
-    //   download_link = "http://localhost:7777//downloads/file/"+download_id;
-    // }
-
+  sendDownloadEmail: function(collector_email, download_id){
+    var download_link = "http://"+process.env.DOMAIN+"/downloads/file/"+download_id;
 
     var download_mailer = {
       'subject':'File Download Link for Order #'+ download_id,

@@ -1,3 +1,8 @@
-<p>Hello {{ data.user_email }}, please click the link below to download.</p>
-<a href= "/download-file/{{ data.uuid }}">Download {{ data.filename }}</a>
-<p>Of course, the uuid is exposed, so maybe we don't want to do this?!?<p>
+{% extends "templates/_default.html" %}
+
+{% block content %}
+
+  <p>Hello {{ data.user_email }}, please click the link below to download.</p>
+  <a href= "/download-file/{{ data.uuid }}">Download {{ data.filename }}</a>
+
+{% endblock %}

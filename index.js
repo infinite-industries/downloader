@@ -4,6 +4,8 @@ var app = express();
 var AWS = require('aws-sdk');
 var fs = require('fs');
 
+var Mail = require('./services/mailer');
+
 var bodyParser = require('body-parser');
 var dotenv = require('dotenv');
 var mongoose = require('mongoose');
@@ -120,7 +122,9 @@ app.get('/download-file/:id', function(req,res){
 })
 
 app.get('/demo',function(req,res){
-  res.render('demo',{domain: process.env.DOMAIN})
+  res.render('demo',{domain: process.env.DOMAIN});
+
+  Mail.sendDownloadEmail('richie@ralphvr.com','abracadabra');
 })
 
 app.use(function(req,res){
