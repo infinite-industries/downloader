@@ -2,11 +2,79 @@
 
 {% block content %}
 
-    <p>
-      for testing purposes only
-    </p>
-    <p>
-      throw in a form input here
-    </p>
+    <div id="emailPrompt">
+      <p>
+        Demo for testing purposes. Please submit a valid email.
+      </p>
+      <div id="formDiv" style="text-align: center">
+        <form id="emailForm" action="/create-download-key" title="" method="post" style=>
+          <div>
+            <label class="title">Email</label>
+            <input type="text" id="email" name="email">
+          </div>
+          <div>
+            <input type="submit" id="submitButton" name="submitButton" value="Submit">
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Added two divs to show as messages. Probably a bad way to do this, can change later.-->
+    <div id="successPrompt" style="display:none">
+      <p>
+        Success! Expect an email shortly with a link to download.
+      </p>
+    </div>
+
+    <div id="failPrompt" style="display:none">
+      <p>
+        Opps! SOmething went wrong :( How should we handle this?
+      </p>
+    </div>
+
+    <script TYPE='text/javascript'>
+
+        /* attach a submit handler to the form */
+        $("#emailForm").submit(function(event) {
+
+            /* stop form from submitting normally */
+            event.preventDefault();
+
+            /* get some values from elements on the page: */
+            var $form = $(this),
+                email = $form.find('input[name="email"]').val(),
+                url = $form.attr('action');
+
+            /* Send the data */
+            var posting = $.ajax({
+              type: 'post',
+              url : url,
+              contentType:"application/json; charset=utf-8",
+              data: JSON.stringify({
+                'user_email':email,
+                'password':'generic', //not using password yet, so just give a generic password called password :)
+                'which_file':'jr_southard_for_print' //hard code print name for now
+               }),
+              dataType: "json",
+              success: function (msg) {
+                console.log("success");
+                //show and hide divs when we get back success from server
+                document.getElementById('emailPrompt').style.display='none';
+                document.getElementById('successPrompt').style.display='inline';
+            },
+            error: function (errormessage) {
+                console.log("failed");
+                //show and hide divs when we get back failure from server
+                document.getElementById('emailPrompt').style.display='none';
+                document.getElementById('failPrompt').style.display='inline';
+            }
+            });
+
+            /* Put the results in a div */
+            posting.done(function(data) {
+              console.log("done");
+            });
+        });
+    </script>
 
 {% endblock %}
