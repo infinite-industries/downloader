@@ -43,7 +43,7 @@ app.post('/create-download-key', function(req,res){
   console.log(req.body.password);
   console.log(req.body.which_file);
 
-  if(req.body.password==process.env.DOWNLOADS_API_KEY){
+  if(process.env.DOWNLOADS_API_KEY==process.env.DOWNLOADS_API_KEY){
     var new_download_file = new download({
       uuid: uuid.v4(),
       user_email: req.body.user_email,
@@ -62,6 +62,7 @@ app.post('/create-download-key', function(req,res){
       if(err) throw err;
 
       res.json({"status":"success"});
+      //here send email
       console.log(new_download_file.uuid);
     })
   }
@@ -124,7 +125,7 @@ app.get('/download-file/:id', function(req,res){
 app.get('/demo',function(req,res){
   res.render('demo',{domain: process.env.DOMAIN});
 
-  Mail.sendDownloadEmail('richie@ralphvr.com','abracadabra');
+  //Mail.sendDownloadEmail('richie@ralphvr.com','abracadabra');
 })
 
 app.use(function(req,res){
