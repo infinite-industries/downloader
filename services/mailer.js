@@ -59,7 +59,7 @@ module.exports = {
     var download_mailer = {
       'subject':'File Download Link for Order #'+ download_id,
       'html':"<html><p>Thank you for your order and your support! Here is a link to your <a href="+download_link+">download</a> page<p><p>Please let us know if you need any additional help.</p><p>Yours,</p><p>Infinite Industries</p></html>",
-      'text':"Thank you for your order and your support! /test-download in order to download your file",
+      'text':"Thank you for your order and your support! Follow "+download_link+" in order to download your file",
       'email': collector_email
     };
 

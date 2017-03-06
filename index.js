@@ -11,6 +11,8 @@ var download = require('./models/downloads');
 var uuid = require('uuid');
 var nunjucks = require( 'nunjucks' ) ; //Added nunjucks for templating
 
+app.use(express.static('public'));
+
 dotenv.load();   //get configuration file from .env
 
 mongoose.connect(process.env.DB);
@@ -44,8 +46,12 @@ app.post('/create-download-key', function(req,res){
       uuid: uuid.v4(),
       user_email: req.body.user_email,
       timestamp: new Date(),
-      number_of_downloads: 0,
       which_file: req.body.which_file,
+      which_distributor: "infiniteindustries",
+      number_of_downloads: 0,
+      number_of_downloads_limited: false,
+      open_to_subscribers: false,
+      is_encrypted: false,
       is_production_data: false,
       is_active: true
     })
@@ -79,7 +85,7 @@ app.get('/download-view/:id', function(req,res){
       res.render('downloadpage.html', {'data':data}) ;
     }
     else {
-      res.json({"status":"failure"});
+      res.render('error.html', {'data':data}) ;
     }
   })
 
@@ -113,12 +119,17 @@ app.get('/download-file/:id', function(req,res){
 
 })
 
+app.get('/demo',function(req,res){
+  res.render('demo',{domain: process.env.DOMAIN})
+})
+
 app.use(function(req,res){
   res.render('404',{domain: process.env.DOMAIN});
 });
 
+
 var appPort=7777;
 
 app.listen(appPort, function () {
-  console.log("Magic on port %d",appPort);
+  console.log("Magic on port %d", appPort);
 });
