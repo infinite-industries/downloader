@@ -62,7 +62,8 @@ app.post('/create-download-key', function(req,res){
       if(err) throw err;
 
       res.json({"status":"success"});
-      //here send email
+      //here send email, passing uuid to send in email as part of link, passing file name for email subject, although we could pass this back to server since it is currently hard coded
+      Mail.sendDownloadEmail(req.body.user_email, new_download_file.uuid, new_download_file.which_file);
       console.log(new_download_file.uuid);
     })
   }

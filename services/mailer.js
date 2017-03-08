@@ -48,11 +48,12 @@ module.exports = {
       .catch(err => console.log(err));
   },
 
-  sendDownloadEmail: function(collector_email, download_id){
-    var download_link = "http://"+process.env.DOMAIN+"/downloads/file/"+download_id;
+  sendDownloadEmail: function(collector_email, user_uuid, download_name){
+    //var download_link = "http://"+process.env.DOMAIN+"/downloads/file/"+user_uuid;
+    var download_link = "http://"+process.env.DOMAIN+"/download-view/"+user_uuid;
 
     var download_mailer = {
-      'subject':'File Download Link for Order #'+ download_id,
+      'subject':'File Download Link for Order ' + download_name,
       'html':"<html><p>Thank you for your order and your support! Here is a link to your <a href="+download_link+">download</a> page<p><p>Please let us know if you need any additional help.</p><p>Yours,</p><p>Infinite Industries</p></html>",
       'text':"Thank you for your order and your support! Follow "+download_link+" in order to download your file",
       'email': collector_email
