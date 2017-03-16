@@ -6,12 +6,12 @@ USER='ubuntu'
 SERVER=''
 if [[ "production" = $1 ]]; then
   SERVER='downloader.infinite.industries'
-elif [[ "stage" = $1 ]]; then
+elif [[ "staging" = $1 ]]; then
   SERVER='downloader-demo.infinite.industries'
 else
   echo Please specify environment to deploy to.
   echo Usage: ./deploy.sh environment
-  echo Example: ./deploy.sh stage
+  echo Example: ./deploy.sh staging
   exit
 fi
 
@@ -23,7 +23,7 @@ ssh $USER@$SERVER << EOF
   git pull
   echo 'Installing npm packages'
   npm install
-  echo 'Restarting the bot'
+  echo 'Restarting'
   forever stop downloader
   rm /home/$USER/.forever/downloader.log
   forever start --uid downloader index.js
