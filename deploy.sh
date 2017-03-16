@@ -5,7 +5,7 @@ USER='ubuntu'
 
 SERVER=''
 if [[ "production" = $1 ]]; then
-  SERVER='downloader.industries'
+  SERVER='downloader.infinite.industries'
 elif [[ "stage" = $1 ]]; then
   SERVER='downloader-demo.infinite.industries'
 else
