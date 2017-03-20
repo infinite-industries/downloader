@@ -92,7 +92,6 @@ app.get('/download-view/:id', function(req,res){
       res.render('error.html', {'data':data}) ;
     }
   })
-
 })
 
 
@@ -105,8 +104,8 @@ app.get('/download-file/:id', function(req,res){
     //console.log(file_data);
     if(file_data){
       //res.json({"status":"success","stuff":"got a live one! Richie can add download."});
-      var fileKey = 'jr_southard_for_print.tif'
-
+      // var fileKey = 'jr_southard_for_print.tif'
+      var fileKey = file_data.which_file+".zip";
       var options = {
         Bucket: process.env.AWS_BUCKET,
         Key: fileKey,

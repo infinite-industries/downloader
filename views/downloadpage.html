@@ -3,6 +3,7 @@
 {% block content %}
 
   <p>Hello {{ data.user_email }}, please click the link below to download.</p>
-  <a href= "/download-file/{{ data.uuid }}">Download {{ data.filename }}</a>
-
+  <div class="present-download">
+    <a class="btn get-artwork-btn" role="button" href= "/download-file/{{ data.uuid }}">DOWNLOAD</a>
+  </div>
 {% endblock %}

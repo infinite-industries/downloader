@@ -72,7 +72,7 @@ module.exports = {
     LoadHTMLTemplate(__dirname+"/mail_templates/send_download_id.html",function(data){
 
       var download_mailer = {
-        'subject':'File Download Link for Order ' + download_name,
+        'subject':'File Download Link',
         'html': data.replace("|*DOWNLOAD_LINK*|", download_link),
         'text':"Thank you for your order and your support! Follow "+download_link+" in order to download your file",
         'email': collector_email
