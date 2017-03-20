@@ -66,7 +66,7 @@ module.exports = {
 
   sendDownloadEmail: function(collector_email, user_uuid, download_name){
     //var download_link = "http://"+process.env.DOMAIN+"/downloads/file/"+user_uuid;
-    var download_link = "http://"+process.env.DOMAIN+"/download-view/"+user_uuid;
+    var download_link = process.env.DOMAIN+"/download-view/"+user_uuid;
     var self = this;
 
     LoadHTMLTemplate(__dirname+"/mail_templates/send_download_id.html",function(data){
