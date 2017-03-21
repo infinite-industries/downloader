@@ -86,10 +86,10 @@ app.get('/download-view/:id', function(req,res){
         filename: file_data.which_file,
         uuid: file_data.uuid
       };
-      res.render('downloadpage.html', {'data':data}) ;
+      res.render('downloadpage.html', {domain: process.env.DOMAIN,'data':data}) ;
     }
     else {
-      res.render('error.html', {'data':data}) ;
+      res.render('error.html', {domain: process.env.DOMAIN,'data':data}) ;
     }
   })
 })
