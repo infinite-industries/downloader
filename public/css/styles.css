@@ -43,6 +43,20 @@ em {
   background-color: #ccc;
 }
 
+.share-options{
+  text-align: center;
+}
+
+.share-options a{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.share-element{
+  padding-top:20px;
+  text-align: center;
+}
+
 .btn{
   font-family: 'Oswald', sans-serif;
   font-weight: 700;

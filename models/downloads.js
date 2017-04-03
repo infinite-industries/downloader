@@ -6,6 +6,7 @@ var downloadSchema = new Schema({
   user_email: String,
   timestamp: Date,
   which_file: String,
+  size_of: Number,
   which_distributor: String,
   number_of_downloads: Number,
   number_of_downloads_limited: Boolean,
