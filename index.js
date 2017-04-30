@@ -11,7 +11,7 @@ var dotenv = require('dotenv');
 var mongoose = require('mongoose');
 var download = require('./models/downloads');
 var uuid = require('uuid');
-var nunjucks = require( 'nunjucks' ) ; //Added nunjucks for templating
+var nunjucks = require('nunjucks') ; //nunjucks for templating
 
 app.use(express.static('public'));
 
