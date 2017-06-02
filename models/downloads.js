@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-var downloadSchema = new Schema({
+const downloadSchema = new Schema({
   uuid: String,
   user_email: String,
   timestamp: Date,
@@ -15,8 +15,8 @@ var downloadSchema = new Schema({
   is_encrypted: Boolean,
   is_production_data: Boolean,
   is_active: Boolean
-},{collection:"download_info"})
+}, {collection: "download_info"});
 
-var Download = mongoose.model('Download', downloadSchema);
+const Download = mongoose.model("Download", downloadSchema);
 
 module.exports = Download;

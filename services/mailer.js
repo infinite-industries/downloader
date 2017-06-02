@@ -1,11 +1,16 @@
-var dotenv = require('dotenv');
-dotenv.load();   //get cofiguration file from .env
+"use strict";
 
-var mailgun = require('mailgun.js');
-var mg = mailgun.client({username: 'api', key: process.env.LIVE_MAILGUN_API_KEY});
-var mail_domain = process.env.LIVE_MAILGUN_DOMAIN;
+const dotenv = require("dotenv");
+dotenv.load();   // get cofiguration file from .env
 
-var fs = require('fs');
+const mailgun = require("mailgun.js");
+const mg = mailgun.client({
+  username: "api",
+  key: process.env.LIVE_MAILGUN_API_KEY
+});
+const mailDomain = process.env.LIVE_MAILGUN_DOMAIN;
+
+const fs = require("fs");
 
 // not used for now but will be later
 // var email_templates = {
@@ -19,68 +24,63 @@ var fs = require('fs');
 //   }
 // }
 
-var template = {
-  DOWNLOAD_ID_EMAIL:"aaaarge!"
-}
+// const template = {
+//   DOWNLOAD_ID_EMAIL: "aaaarge!"
+// };
 
-function LoadHTMLTemplate(path_to_template, callback){
-  fs.readFile(path_to_template, 'utf8', function (error, data) {
-    if(!error){
+function loadHTMLTemplate(path_to_template, callback) {
+  fs.readFile(path_to_template, "utf8", function(error, data) {
+    if(!error) {
       callback(data);
     }
   });
-
 }
 
 
 module.exports = {
 
-  sendEmail: function(requested_action){
-    var mail_content = {};
-    mail_content.from = 'INFINITE.INDUSTRIES <info@infinite.industries>';
-    mail_content.to = [requested_action.email];
-    mail_content.subject = process.env.MODE +': '+requested_action.subject;
-    mail_content.text = requested_action.text;
-    mail_content.html = requested_action.html;
+  sendEmail: function(requestedAction) {
+    let mailContent = {};
+    mailContent.from = "INFINITE.INDUSTRIES <info@infinite.industries>";
+    mailContent.to = [requestedAction.email];
+    mailContent.subject = process.env.MODE +": "+requestedAction.subject;
+    mailContent.text = requestedAction.text;
+    mailContent.html = requestedAction.html;
 
-    // console.log(mail_content);
-    mg.messages.create(mail_domain, mail_content)
-      .then(msg => console.log(msg))
-      .catch(err => console.log(err));
-
+    // console.log(mailContent);
+    mg.messages.create(mailDomain, mailContent)
+      .then((msg) => console.log(msg))
+      .catch((err) => console.log(err));
   },
-  sendAdminEmail:function(requested_action){
+  sendAdminEmail: function(requestedAction) {
+    // var mailContent = email_templates[which_email];
+    let mailContent = {};
+    mailContent.from = "INFINITE.INDUSTRIES <info@infinite.industries>";
+    mailContent.to = [process.env.ADMIN_EMAIL];
+    mailContent.subject = process.env.MODE +": "+requestedAction.subject;
+    mailContent.text = requestedAction.text;
 
-    //var mail_content = email_templates[which_email];
-    var mail_content = {};
-    mail_content.from = 'INFINITE.INDUSTRIES <info@infinite.industries>';
-    mail_content.to = [process.env.ADMIN_EMAIL];
-    mail_content.subject = process.env.MODE +': '+requested_action.subject;
-    mail_content.text = requested_action.text;
-
-    // console.log(mail_content);
-    mg.messages.create(mail_domain,mail_content)
-      .then(msg => console.log(msg))
-      .catch(err => console.log(err));
+    // console.log(mailContent);
+    mg.messages.create(mailDomain, mailContent)
+      .then((msg) => console.log(msg))
+      .catch((err) => console.log(err));
   },
 
-  sendDownloadEmail: function(collector_email, user_uuid, download_name){
-    //var download_link = "http://"+process.env.DOMAIN+"/downloads/file/"+user_uuid;
-    var download_link = "http://"+process.env.DOMAIN+"/download-view/"+user_uuid;
-    var self = this;
+  sendDownloadEmail: function(collector_email, user_uuid, download_name) {
+    // var download_link = "http://"+process.env.DOMAIN+"/downloads/file/"+user_uuid;
+    let download_link = "http://"+process.env.DOMAIN+"/download-view/"+user_uuid;
+    let self = this;
 
-    LoadHTMLTemplate(__dirname+"/mail_templates/send_download_id.html",function(data){
-
-      var download_mailer = {
-        'subject':'File Download Link',
-        'html': data.replace("|*DOWNLOAD_LINK*|", download_link),
-        'text':"Thank you for your order and your support! Follow "+download_link+" in order to download your file",
-        'email': collector_email
+    loadHTMLTemplate(__dirname+"/mail_templates/send_download_id.html", function(data) {
+      let download_mailer = {
+        "subject": "File Download Link",
+        "html": data.replace("|*DOWNLOAD_LINK*|", download_link),
+        "text": "Thank you for your order and your support! Follow "+download_link+" in order to download your file",
+        "email": collector_email
       };
 
       self.sendEmail(download_mailer);
-
     });
   }
 
-}
+};

@@ -1,34 +1,36 @@
-var AWS = require('aws-sdk');
-var fs = require('fs');
+"use strict";
 
-var express = require('express');
-var app = express();
+const AWS = require("aws-sdk");
+// var fs = require('fs');
 
-var dotenv = require('dotenv');
+const express = require("express");
+const app = express();
 
-dotenv.load();   //get configuration file from .env
+const dotenv = require("dotenv");
 
-var s3client = new AWS.S3({
-   accessKeyId: process.env.AWS_ACCESS_KEY_ID,    //required
-   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, //required
-   region: 'us-west-1'
+dotenv.load();   // get configuration file from .env
+
+const s3client = new AWS.S3({
+   accessKeyId: process.env.AWS_ACCESS_KEY_ID,    // required
+   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, // required
+   region: "us-west-1"
 });
 
-app.get('/down', function(req,res){
-  var fileKey = 'jr_southard_for_print.tif'
+app.get("/down", function(req, res) {
+  let fileKey = "jr_southard_for_print.tif";
 
-  var options = {
+  let options = {
     Bucket: process.env.AWS_BUCKET,
-    Key: fileKey,
+    Key: fileKey
   };
 
   res.attachment(fileKey);
-  var fileStream = s3client.getObject(options).createReadStream();
+  let fileStream = s3client.getObject(options).createReadStream();
   fileStream.pipe(res);
-})
+});
 
-var appPort=7778;
+const appPort=7778;
 
-app.listen(appPort, function () {
-  console.log("Magic on port %d",appPort);
+app.listen(appPort, function() {
+  console.log("Magic on port %d", appPort);
 });

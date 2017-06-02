@@ -1,10 +1,11 @@
 {
   "name": "downloader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "basic file download management",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint --fix . "
   },
   "author": "Dima and Richie",
   "license": "MIT",
@@ -18,5 +19,9 @@
     "nunjucks": "^3.0.0",
     "s3-download": "^1.0.0",
     "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.1"
   }
 }

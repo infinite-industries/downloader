@@ -1,0 +1,14 @@
+{
+    "extends": "google",
+    "parserOptions": {
+       "ecmaVersion": 6
+    },
+    "rules": {
+      "comma-dangle": ["error", "never"],
+      "quotes":["warn", "double", { "avoidEscape": true, "allowTemplateLiterals": true }],
+      "max-len":["error", 80,{ "ignoreComments": true, "ignoreUrls": true, "ignoreStrings": true }],
+      "camelcase": 0,
+      "require-jsdoc":0
+    }
+
+}
